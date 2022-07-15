@@ -1,9 +1,12 @@
 const express = require('express')
+// const wisata = require('../../models/wisata')
 const router = express.Router()
 
 // Controller:
 const { register, login, checkAuth } = require('../controllers/auth')
 const { getUsers, getUser, updateUser, deleteUser } = require('../controllers/user')
+const { addWisata } = require('../controllers/wisata')
+
 
 
 
@@ -19,6 +22,9 @@ const { uploadFile } = require('../middlewares/uploadFile')
 router.post('/register', register)
 router.post('/login', login)
 router.get('/check-auth', auth, checkAuth)
+
+// Wisata
+router.post('/wisata', addWisata)
 
 // User
 router.get('/users', getUsers)
