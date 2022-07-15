@@ -1,10 +1,12 @@
 // import package here
 const multer = require("multer")
 
-exports.uploadFile = (avatar) => {
+exports.uploadFiles = (photo) => {
     const storage = multer.diskStorage({
         destination: function (req, file, cb) {
-            cb(null, "uploads/wisata");
+            if (file.fieldname === photo) {
+                cb(null, "uploads/image");
+            } 
         },
         filename: function (req, file, cb) {
             cb(null, Date.now() + "-" + file.originalname.replace(/\s/g, ""));
@@ -12,14 +14,16 @@ exports.uploadFile = (avatar) => {
     });
 
     const fileFilter = function (req, file, cb) {
-        if (file.fieldname === avatar) {
+        if (file.fieldname == photo) {
             if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)) {
                 req.fileValidationError = {
-                    message: "Only image files are allowed"
-                }
-                return cb(new Error("Only image files are allowed"), false)
+                    message: "Only image files are allowed",
+                };
+                return cb(new Error("Only image files are allowed", false));
             }
         }
+
+       
         cb(null, true);
     };
 
@@ -32,7 +36,9 @@ exports.uploadFile = (avatar) => {
         limits: {
             fileSize: maxSize,
         },
-    }).single(avatar)
+    }).fields([
+        { name: photo, maxCount: 1 }
+    ])
 
     return (req, res, next) => {
         upload(req, res, function (err) {
