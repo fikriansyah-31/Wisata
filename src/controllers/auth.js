@@ -1,5 +1,5 @@
 // import model here
-const { user, profile } = require('../../models')
+const { user } = require('../../models')
 
 // import package here
 const Joi = require('joi')
@@ -50,16 +50,10 @@ exports.register = async (req, res) => {
             name: req.body.name,
             email: req.body.email,
             password: hashedPassword,
-            role: 'customer'
+            role: 'user'
         })
 
-        await profile.create({
-            phone: null,
-            gender: null,
-            address: null,
-            avatar: null,
-            idUser: newUser.id
-        })
+       
 
         const token = jwt.sign({ id: newUser.id }, process.env.TOKEN_KEY)
 

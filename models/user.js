@@ -13,12 +13,12 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
 
       //hasOne association to profile model
-      user.hasOne(models.profile, {
-        as: "profile",
-        foreignKey: {
-          name: "idUser",
-        },
-      });
+      // user.hasOne(models.profile, {
+      //   as: "profile",
+      //   foreignKey: {
+      //     name: "idUser",
+      //   },
+      // });
 
       //hasMany association to cart model
      
