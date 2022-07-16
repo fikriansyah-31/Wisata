@@ -41,3 +41,36 @@ exports.addWisata = async (req, res) => {
         });
     }
 };
+
+exports.getWisatas = async (req, res) => {
+    try {
+        let wisataData = await wisata.findAll({
+            
+            attributes: {
+                exclude: ["createdAt", "updatedAt"],
+            },
+            
+        });
+
+        wisataData = JSON.parse(JSON.stringify(wisataData))
+        wisataData = wisataData.map((item) => {
+            return {
+                ...item,
+                wisata: process.env.FILE_PATH_IMAGE + item.photo
+            }
+        })
+
+        res.send({
+            status: "success",
+            data: {
+                wisata: wisataData,
+            },
+        });
+    } catch (error) {
+        console.log(error);
+        res.send({
+            status: "Failed",
+            message: "Server Error",
+        });
+    }
+};

@@ -6,7 +6,7 @@ const router = express.Router()
 const { register, login, checkAuth } = require('../controllers/auth')
 
 const { getUsers, getUser, updateUser, deleteUser } = require('../controllers/user')
-const { addWisata } = require('../controllers/wisata')
+const { addWisata, getWisatas } = require('../controllers/wisata')
 
 // Authentication
 const { auth } = require('../middlewares/auth')
@@ -23,7 +23,7 @@ router.get('/check-auth', auth, checkAuth)
 
 // Wisata
 router.post('/wisata', auth, uploadFiles( 'photo'), addWisata)
-
+router.get('/wisatas', getWisatas)
 // User
 router.get('/users', getUsers)
 router.get('/user/:id', getUser)
