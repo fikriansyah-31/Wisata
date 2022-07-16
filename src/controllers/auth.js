@@ -11,7 +11,7 @@ exports.register = async (req, res) => {
     const schema = Joi.object({
         name: Joi.string().min(2).required(),
         email: Joi.string().email().min(5).required(),
-        password: Joi.string().min(6).max(6).required()
+        password: Joi.string().min(6).max(9).required()
     })
 
     // do validation and get error object from schema.validate
@@ -52,6 +52,7 @@ exports.register = async (req, res) => {
             password: hashedPassword,
             role: 'user'
         })
+        console.log(newUser);
 
        
 
