@@ -42,7 +42,7 @@ exports.addWisata = async (req, res) => {
     }
 };
 
-exports.getWisata = async (req, res) => {
+exports.getWisatas = async (req, res) => {
     try {
         let wisataData = await wisata.findAll({
 
@@ -74,7 +74,7 @@ exports.getWisata = async (req, res) => {
         });
     }
 };
-exports.getWisatas = async (req, res) => {
+exports.getWisata = async (req, res) => {
     const { id } = req.params;
     try {
         let wisataData = await wisata.findOne({
@@ -88,12 +88,6 @@ exports.getWisatas = async (req, res) => {
         });
 
         wisataData = JSON.parse(JSON.stringify(wisataData))
-        wisataData = wisataData.map((item) => {
-            return {
-                ...item,
-                wisata: process.env.FILE_PATH_IMAGE + item.photo
-            }
-        })
 
         res.send({
             status: "success",
@@ -113,7 +107,8 @@ exports.updateWisatas = async (req, res) => {
     const { id } = req.params;
 
     let data = {
-        desc: req.body.desc,
+        name: req.body.name,
+        desc: req.body.desc
     };
 
     await wisata.update(data, {
