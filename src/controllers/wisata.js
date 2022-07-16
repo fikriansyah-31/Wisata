@@ -42,10 +42,10 @@ exports.addWisata = async (req, res) => {
     }
 };
 
-exports.getWisatas = async (req, res) => {
+exports.getWisata = async (req, res) => {
     try {
         let wisataData = await wisata.findAll({
-            
+
             attributes: {
                 exclude: ["createdAt", "updatedAt"],
             },
@@ -65,6 +65,107 @@ exports.getWisatas = async (req, res) => {
             data: {
                 wisata: wisataData,
             },
+        });
+    } catch (error) {
+        console.log(error);
+        res.send({
+            status: "Failed",
+            message: "Server Error",
+        });
+    }
+};
+exports.getWisatas = async (req, res) => {
+    const { id } = req.params;
+    try {
+        let wisataData = await wisata.findOne({
+            where: {
+                id,
+            },
+            attributes: {
+                exclude: ["createdAt", "updatedAt"],
+            },
+            
+        });
+
+        wisataData = JSON.parse(JSON.stringify(wisataData))
+        wisataData = wisataData.map((item) => {
+            return {
+                ...item,
+                wisata: process.env.FILE_PATH_IMAGE + item.photo
+            }
+        })
+
+        res.send({
+            status: "success",
+            data: {
+                wisata: wisataData,
+            },
+        });
+    } catch (error) {
+        console.log(error);
+        res.send({
+            status: "Failed",
+            message: "Server Error",
+        });
+    }
+};
+exports.updateWisatas = async (req, res) => {
+    const { id } = req.params;
+
+    let data = {
+        desc: req.body.desc,
+    };
+
+    await wisata.update(data, {
+        where: {
+            id,
+        },
+    });
+    try {
+        let wisataData = await wisata.findOne({
+            where: {
+                id,
+            },
+            attributes: {
+                exclude: ["createdAt", "updatedAt"],
+            },
+            
+        });
+
+        wisataData = JSON.parse(JSON.stringify(wisataData))
+        // wisataData = wisataData.map((item) => {
+        //     return {
+        //         ...item,
+        //         wisata: process.env.FILE_PATH_IMAGE + item.photo
+        //     }
+        // })
+
+        res.send({
+            status: "success",
+            data: {
+                wisata: wisataData,
+            },
+        });
+    } catch (error) {
+        console.log(error);
+        res.send({
+            status: "Failed",
+            message: "Server Error",
+        });
+    }
+};
+exports.deleteWisatas = async (req, res) => {
+    const { id } = req.params;
+
+    await wisata.destroy({
+        where: {
+            id,
+        },
+    });
+    try {
+        
+        res.send({
+            status: "success",
         });
     } catch (error) {
         console.log(error);
