@@ -68,6 +68,8 @@ exports.register = async (req, res) => {
                 }
             }
         })
+        console.log(data);
+
     } catch (error) {
         console.log(error);
         res.status(500).send({

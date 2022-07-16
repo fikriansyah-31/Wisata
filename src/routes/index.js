@@ -22,7 +22,7 @@ router.post('/login', login)
 router.get('/check-auth', auth, checkAuth)
 
 // Wisata
-router.post('/wisata', uploadFiles( 'photo'), addWisata)
+router.post('/wisata',auth, uploadFiles( 'photo'), addWisata)
 router.get('/wisatas', getWisatas)
 router.get('/wisata/:id', auth, getWisata)
 router.patch('/wisata/:id', auth, uploadFiles( 'photo'), updateWisatas)
